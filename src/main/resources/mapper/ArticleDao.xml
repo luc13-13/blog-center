@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lc.blog.center.mapper.ArticleDao">
+
+    <resultMap id="BaseResultMap" type="com.lc.blog.center.model.ArticleDO">
+        <!--@Table -->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="contentType" column="content_type" jdbcType="VARCHAR"/>
+        <result property="contentTitle" column="content_title" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="tagId" column="tag_id" jdbcType="VARCHAR"/>
+        <result property="coverUrl" column="cover_url" jdbcType="VARCHAR"/>
+        <result property="clickUrl" column="click_url" jdbcType="VARCHAR"/>
+        <result property="contentForm" column="content_form" jdbcType="INTEGER"/>
+        <result property="recommend" column="recommend" jdbcType="INTEGER"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="creatorIdentity" column="creator_identity" jdbcType="VARCHAR"/>
+        <result property="creatorId" column="creator_id" jdbcType="INTEGER"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+          id, content_type, content_title, content, tag_id, cover_url, click_url, content_form, recommend, sort, state, creator_identity, creator_id, gmt_create, gmt_modified    </sql>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap" >
+        select
+          id, content_type, content_title, content, tag_id, cover_url, click_url, content_form, recommend, sort, state, creator_identity, creator_id, gmt_create, gmt_modified        from blog-center.article
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, content_type, content_title, content, tag_id, cover_url, click_url, content_form, recommend, sort, state, creator_identity, creator_id, gmt_create, gmt_modified
+        from blog-center.article
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="contentType != null and contentType != ''">
+                and content_type = #{contentType}
+            </if>
+            <if test="contentTitle != null and contentTitle != ''">
+                and content_title = #{contentTitle}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="tagId != null and tagId != ''">
+                and tag_id = #{tagId}
+            </if>
+            <if test="coverUrl != null and coverUrl != ''">
+                and cover_url = #{coverUrl}
+            </if>
+            <if test="clickUrl != null and clickUrl != ''">
+                and click_url = #{clickUrl}
+            </if>
+            <if test="contentForm != null">
+                and content_form = #{contentForm}
+            </if>
+            <if test="recommend != null">
+                and recommend = #{recommend}
+            </if>
+            <if test="sort != null">
+                and sort = #{sort}
+            </if>
+            <if test="state != null">
+                and state = #{state}
+            </if>
+            <if test="creatorIdentity != null and creatorIdentity != ''">
+                and creator_identity = #{creatorIdentity}
+            </if>
+            <if test="creatorId != null">
+                and creator_id = #{creatorId}
+            </if>
+            <if test="gmtCreate != null">
+                and gmt_create = #{gmtCreate}
+            </if>
+            <if test="gmtModified != null">
+                and gmt_modified = #{gmtModified}
+            </if>
+        </where>
+    </select>
+</mapper>
+
