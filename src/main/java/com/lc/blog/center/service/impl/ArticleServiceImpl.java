@@ -76,9 +76,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleDao, ArticleDO> imple
         }
         ArticleVO vo = articleConvertor.convertDO2VO(articleDO);
         //封装tags
-        List<Long> tagsIdList = LucStringUtils.parseToLongList(articleDO.getTagId());
-        List<TagsDO> tagsDOS = tagsService.listByIds(tagsIdList);
-        vo.setTagsVOList(tagsConvertor.convertDO2VOList(tagsDOS));
+        if(articleDO.getTagId() != null) {
+            List<Long> tagsIdList = LucStringUtils.parseToLongList(articleDO.getTagId());
+            List<TagsDO> tagsDOS = tagsService.listByIds(tagsIdList);
+            vo.setTagsVOList(tagsConvertor.convertDO2VOList(tagsDOS));
+        }
         //封装点赞和评论列表
 
         return vo;

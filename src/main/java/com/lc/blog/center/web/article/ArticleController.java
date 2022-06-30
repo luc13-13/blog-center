@@ -41,7 +41,7 @@ public class ArticleController {
     @ApiImplicitParam(name = "articleId",value = "文章主键id",required = true, dataType = "Long")
     @GetMapping("/detail/{articleId}")
     public WebResult<ArticleVO> getArticleDetail(@PathVariable("articleId") Long articleId) {
-        // 封装标签
+        // 封装标签和评论点赞，都放在service中进行
         ArticleVO vo = articleService.getDetail(articleId);
         return WebResult.successData(vo);
     }
