@@ -16,5 +16,14 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
 
+logging:
+  config: classpath:./logback-spring.xml
+  level:
+    root: info
+  file:
+    path: ./${spring.application.name}/logs
+
+
+
 
 
