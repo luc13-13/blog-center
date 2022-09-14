@@ -18,10 +18,12 @@ public class PaperSetBO {
     private String contentType;
 
     /*** 标题 */
-    private String contentTitle;
+    private String setTitle;
 
     /*** 内容 */
     private String content;
+
+    private Integer articleCount;
 
     /*** 标签id数组，英文逗号分隔 */
     private String tagId;

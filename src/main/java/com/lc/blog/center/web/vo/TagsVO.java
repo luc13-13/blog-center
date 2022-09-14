@@ -1,6 +1,8 @@
 package com.lc.blog.center.web.vo;
  
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.Builder;
 import lombok.AllArgsConstructor;
@@ -33,6 +35,7 @@ public class TagsVO {
 
     
     @ApiModelProperty(value = "${column.comment}")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Date gmtCreate;
 
     
