@@ -1,11 +1,15 @@
 package com.lc.blog.center.web.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -18,7 +22,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "查询条件")
-public class ConditionVO {
+public class ConditionVO implements Serializable {
+
+    @ApiModelProperty(name = "userId", value = "用户id", dataType = "Long")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long userId;
+
     @ApiModelProperty(name = "current", value = "页码", dataType = "Integer")
     private Integer current;
 
@@ -45,6 +54,13 @@ public class ConditionVO {
 
     @ApiModelProperty(name = "state", value = "是否删除 0 删除 1 正常",dataType = "Integer")
     private Integer state;
+
+    @ApiModelProperty(name = "startDate", value = "开始时间",dataType = "Date")
+    private Date startDate;
+
+    @ApiModelProperty(name = "endDate", value = "结束时间",dataType = "Date")
+    private Date endDate;
+
 
     @ApiModelProperty(name = "gmtCreate", value = "创建时间",dataType = "Date")
     private Date gmtCreate;
