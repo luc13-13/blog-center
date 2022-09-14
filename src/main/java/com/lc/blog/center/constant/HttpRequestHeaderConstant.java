@@ -9,4 +9,6 @@ public class HttpRequestHeaderConstant {
     public static final String USER_ID = "user_id";
 
     public static final String USER_PERMISSIONS = "permissions";
+
+    public static final String token = "Authentication";
 }
