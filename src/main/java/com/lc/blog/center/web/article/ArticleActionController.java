@@ -1,6 +1,5 @@
 package com.lc.blog.center.web.article;
 
-import com.alibaba.fastjson.JSONObject;
 import com.lc.blog.center.bo.ArticleBO;
 import com.lc.blog.center.bo.TagsBO;
 import com.lc.blog.center.constant.HttpRequestHeaderConstant;
@@ -8,26 +7,21 @@ import com.lc.blog.center.convertor.ArticleConvertor;
 import com.lc.blog.center.service.ArticleService;
 import com.lc.blog.center.service.TagsService;
 import com.lc.blog.center.utils.LucStringUtils;
+import com.lc.blog.center.web.AbstractWebController;
 import com.lc.blog.center.web.vo.ArticleVO;
 import com.luc.framework.core.mvc.WebResult;
+import java.util.ArrayList;
+import java.util.List;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 
 /**
  * @author: lucheng
@@ -39,7 +33,7 @@ import java.util.Vector;
 @RequestMapping("/admin/article")
 @RequiredArgsConstructor
 @Slf4j
-public class ArticleActionController {
+public class ArticleActionController extends AbstractWebController {
     private final ArticleService articleService;
     private final TagsService tagsService;
     private final ArticleConvertor articleConvertor;
@@ -47,8 +41,8 @@ public class ArticleActionController {
     @ApiOperation("创建文章，仅管理员可用")
     @PostMapping("/create")
 //    @ApiImplicitParam(name = "createRequest", value = "ArticleCreateRequest", required = true)
-    public WebResult<String> createArticle(@ApiParam("articleCreateRequest") @RequestBody ArticleCreateRequest articleCreateRequest,
-                                           @RequestHeader(value = HttpRequestHeaderConstant.USER_ID) String userId) {
+    public WebResult<String> createArticle(@ApiParam("articleCreateRequest") @RequestBody ArticleCreateRequest articleCreateRequest) {
+        String userId = this.getHeaderValue(HttpRequestHeaderConstant.USER_ID);
         articleCreateRequest.setCreatorId(Long.parseLong(userId));
         articleService.createOne(articleCreateRequest);
         log.info("com.lc.blog.center.web.article.ArticleActionController$createArticle:创建文章成功");
