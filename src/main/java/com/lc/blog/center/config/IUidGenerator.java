@@ -1,6 +1,7 @@
 package com.lc.blog.center.config;
 
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
+import com.lc.blog.center.feign.client.UidCenter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -21,12 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 public class IUidGenerator implements IdentifierGenerator {
 
     @Autowired
-    private RestTemplate restTemplate;
+    private UidCenter uidCenter;
 
     @Override
     public Number nextId(Object entity) {
 
-        long id = restTemplate.getForObject("http://192.168.223.128:8888/uid/nextId",Long.class);
+        long id = uidCenter.nextId();
         log.info("IUidGenerator:---------Get uid : {}",id);
         return id;
     }
