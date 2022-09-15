@@ -1,5 +1,7 @@
 package com.lc.blog.center.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.luc.framework.core.util.PaginationParams;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +17,8 @@ import java.io.Serializable;
 @Builder
 public class TagsDTO implements PaginationParams, Serializable {
 
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
     private String tagTitle;
     private Integer pageSize;
     private Integer pageIndex;
