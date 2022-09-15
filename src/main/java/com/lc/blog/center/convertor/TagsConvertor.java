@@ -2,6 +2,7 @@ package com.lc.blog.center.convertor;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lc.blog.center.bo.TagsBO;
+import com.lc.blog.center.dto.TagsDTO;
 import com.lc.blog.center.model.TagsDO;
 import com.lc.blog.center.web.vo.TagsVO;
 
@@ -29,4 +30,6 @@ public interface TagsConvertor {
     List<TagsVO> convertDO2VOList(List<TagsDO> doList);
 
     TagsVO convertDO2VO(TagsDO tagsDO);
+
+    TagsDO convertDTO2DO(TagsDTO tagsDTO);
 }

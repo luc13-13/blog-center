@@ -3,15 +3,13 @@ package com.lc.blog.center.convertor.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lc.blog.center.bo.TagsBO;
 import com.lc.blog.center.convertor.TagsConvertor;
+import com.lc.blog.center.dto.TagsDTO;
 import com.lc.blog.center.model.TagsDO;
 import com.lc.blog.center.web.vo.TagsVO;
-import com.sun.org.apache.bcel.internal.generic.NEW;
-import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import springfox.documentation.service.Tags;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 
 /**
  * @author: lucheng
@@ -101,5 +99,16 @@ public class TagsConvertorImpl implements TagsConvertor {
         }
         return TagsVO.builder()
                 .tagTitle(tagsDO.getTagTitle()).build();
+    }
+
+    @Override
+    public TagsDO convertDTO2DO(TagsDTO tagsDTO) {
+        if(tagsDTO == null) {
+            return TagsDO.builder().build();
+        }
+        return TagsDO.builder()
+                .id(tagsDTO.getId())
+                .tagTitle(tagsDTO.getTagTitle())
+                .build();
     }
 }
