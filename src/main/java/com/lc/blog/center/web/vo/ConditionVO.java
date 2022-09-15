@@ -40,6 +40,9 @@ public class ConditionVO implements Serializable {
     @ApiModelProperty(name = "keywords", value = "搜索内容", dataType = "String")
     private String keywords;
 
+    @ApiModelProperty(name = "fuzzyQuery", value = "开启模糊查询 true", dataType = "Boolean")
+    private Boolean fuzzyQuery;
+
     @ApiModelProperty(name = "paperSetId", value = "文集id", dataType = "Long",example = "1")
     private Long paperSetId;
 
