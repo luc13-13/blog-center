@@ -21,7 +21,7 @@ public interface PaperSetService extends IService<PaperSetDO> {
      * @param condition 查询条件
      * @return 对象列表
      */
-    PageResult<PaperSetBO> getPaperSetDOListPage(ConditionVO condition);
+    PageResult<PaperSetBO> getPaperSetBOPage(ConditionVO condition);
 
     /**
      * 新增数据
