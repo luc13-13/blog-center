@@ -16,6 +16,8 @@ import com.lc.blog.center.service.TagsService;
 import com.lc.blog.center.web.request.PageResult;
 import com.lc.blog.center.web.request.SearchRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,8 +50,17 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao,TagsDO> implements Tags
      * @return 对象列表
      */
     public Page<TagsBO> getTagsDOListPage(TagsDTO tagsDTO){
+        // TODO 将condition转为DO作为查询条件
         Page<TagsDO> page = new Page<>(tagsDTO.getPageIndex(), tagsDTO.getPageSize());
-        Page<TagsDO> result =  tagsDao.selectPage(page, new LambdaQueryWrapper<TagsDO>().eq(TagsDO::getState, StatusEnum.VALID.getCode()));
+        Page<TagsDO> result =  tagsDao.selectPage(page,
+                new LambdaQueryWrapper<>(tagsConvertor.convertBO2DO(TagsBO.builder().build()))
+                        .eq(ObjectUtils.isNotEmpty(tagsDTO.getId()),TagsDO::getId, tagsDTO.getId())
+                        .eq(TagsDO::getState, StatusEnum.VALID.getCode())
+                        .like(StringUtils.isNotEmpty(tagsDTO.getTagTitle()), TagsDO::getTagTitle, tagsDTO.getTagTitle()));
+//        Page<TagsDO> result =  tagsDao.selectPage(page,
+//                new LambdaQueryWrapper<>(tagsConvertor.convertDTO2DO(tagsDTO))
+//                        .eq(TagsDO::getState, StatusEnum.VALID.getCode())
+//                        .like(StringUtils.isNotEmpty(tagsDTO.getTagTitle()), TagsDO::getTagTitle, tagsDTO.getTagTitle()));
         return tagsConvertor.convertDO2BOPage(result);
     }
 

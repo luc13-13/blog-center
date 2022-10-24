@@ -4,11 +4,13 @@ import com.lc.blog.center.bo.ArticleBO;
 import com.lc.blog.center.bo.TagsBO;
 import com.lc.blog.center.constant.HttpRequestHeaderConstant;
 import com.lc.blog.center.convertor.ArticleConvertor;
+import com.lc.blog.center.dto.TagsDTO;
 import com.lc.blog.center.service.ArticleService;
 import com.lc.blog.center.service.TagsService;
 import com.lc.blog.center.utils.LucStringUtils;
 import com.lc.blog.center.web.AbstractWebController;
 import com.lc.blog.center.web.vo.ArticleVO;
+import com.lc.blog.center.web.vo.TagsVO;
 import com.luc.framework.core.mvc.WebResult;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +19,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author: lucheng
@@ -37,6 +36,7 @@ public class ArticleActionController extends AbstractWebController {
     private final ArticleService articleService;
     private final TagsService tagsService;
     private final ArticleConvertor articleConvertor;
+    private final StreamBridge streamBridge;
 
     @ApiOperation("创建文章，仅管理员可用")
     @PostMapping("/create")
@@ -47,6 +47,12 @@ public class ArticleActionController extends AbstractWebController {
         articleService.createOne(articleCreateRequest);
         log.info("com.lc.blog.center.web.article.ArticleActionController$createArticle:创建文章成功");
         return WebResult.successData("创建成功");
+    }
+
+    @GetMapping("/test/tags")
+    public WebResult<String> test() {
+        streamBridge.send("bindingTest1","文章关联标签");
+        return WebResult.success();
     }
 
     @ApiOperation("更细文章标签，需要前端处理好标签idList为字符串")
@@ -76,6 +82,12 @@ public class ArticleActionController extends AbstractWebController {
     @PostMapping("/saveOrUpdate")
     public WebResult<String> saveOrUpdateArticle(@RequestBody ArticleVO articleVO) {
         return WebResult.successData("修改成功");
+    }
+
+    @PostMapping("/addTag/test")
+    public WebResult<String> addTag(@RequestBody TagsDTO tagsDTO) {
+
+        return WebResult.success();
     }
 
 }

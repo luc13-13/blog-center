@@ -17,7 +17,7 @@ public class ExampleController {
 
     @GetMapping("/test")
     public WebResult<String> test() {
-        return WebResult.successData("success!");
+        return WebResult.successData("hello devtools!");
     }
 
 }

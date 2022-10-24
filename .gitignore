@@ -1,5 +1,6 @@
 /target/
 /logs/
+*.log
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
@@ -13,7 +14,7 @@
 
 ### IntelliJ IDEA ###
 .idea
-*.iws
+**.iws
 *.iml
 *.ipr
 

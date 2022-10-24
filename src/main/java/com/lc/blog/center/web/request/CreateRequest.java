@@ -20,7 +20,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel
+@ApiModel("创建对象统一请求")
 public class CreateRequest {
     @ApiModelProperty(value = "内容")
     private String content;

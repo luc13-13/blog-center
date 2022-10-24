@@ -3,18 +3,81 @@ server:
 spring:
   application:
     name: blog-center
-
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher # swagger2与springboot2.6.x中的默认匹配方式冲突，需要修改Springboot2.6.x的匹配方式
+  devtools:
+    restart:
+      enabled: true #开启热部署，restart类加载器监视文件更新
+      additional-paths: src/main/java # 监视目录
+      additional-exclude: 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog-center?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8&characterEncoding=UTF-8&rewriteBatchedStatements=true
     username: root
-    password: Lc123456@
+    password: luc123456
 
+  cloud:
+    function: # 注册生产者和消费者，;隔开， 需要声明functionRouting进行路由转发
+      definition: msgConsumer;msgProvider;
+    stream:
+      binders:
+        rabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                dynamic: false
+                host: localhost
+                port: 5672
+                username: luc
+                password: luc123456
+                virtual-host: v1
+      bindings: #[消费者的函数名]-in-[index]  [生产者的函数名]-out-[index]
+        msgProvider-out-0:
+          content-type: application/json
+          destination: tag.action.recv.exchange #目标exchange
+#          group: tag.add.action.stream.queue
+          binder: rabbit
+        msgConsumer-in-0:
+          content-type: application/json
+          destination: tag.action.recv.exchange
+          group: tag.add.action.queue
+          binder: rabbit
+        msgConsumer1-in-1:
+          content-type: application/json
+          destination: tag.action.recv.exchange
+          group: tag.add.action.queue
+          binder: rabbit
+      default-binder: rabbit
+      rabbit: #       设置rabbit中的exchange和queue绑定关系
+        bindings:
+          msgProvider-out-0:
+            producer:
+              exchange-type: direct
+              declare-exchange: false
+              bind-queue: true
+#              queue-name-group-only: true
+#              binding-routing-key: addTags
+              routing-key-expression: headers[msgType]
+          msgConsumer-in-0:
+            consumer:
+              exchange-type: direct
+              queue-name-group-only: true
+              declare-exchange: false
+              bind-queue: false
+              binding-routing-key: addTags
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: assign_id
+      logic-delete-field: state
+      logic-delete-value: 0
+      logic-not-delete-value: 1
 
 logging:
   config: classpath:./logback-spring.xml

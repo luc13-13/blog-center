@@ -7,6 +7,7 @@ import com.lc.blog.center.dto.TagsDTO;
 import com.lc.blog.center.service.TagsService;
 import com.lc.blog.center.web.request.PageResult;
 import com.lc.blog.center.web.request.SearchRequest;
+import com.lc.blog.center.web.request.SearchRequestFilter;
 import com.lc.blog.center.web.vo.TagsVO;
 import com.luc.framework.core.mvc.WebResult;
 import com.luc.framework.core.util.PaginationParams;
@@ -43,10 +44,11 @@ public class TagsController {
 
     @ApiOperation("分页获取标签列表")
     @GetMapping("/getPageList")
-    public WebResult<Page<TagsVO>> tagPageList(Integer pageSize, Integer pageIndex) {
+    public WebResult<Page<TagsVO>> tagPageList(SearchRequestFilter searchRequestFilter) {
         TagsDTO tagsDTO = TagsDTO.builder()
-                .pageIndex(pageIndex)
-                .pageSize(pageSize).build();
+                .tagTitle(searchRequestFilter.getTitle())
+                .pageIndex(searchRequestFilter.getPageIndex())
+                .pageSize(searchRequestFilter.getPageSize()).build();
         Page<TagsBO> boPage =  tagsService.getTagsDOListPage(tagsDTO);
         return WebResult.successData(tagsConvertor.convertBO2VOPage(boPage));
     }

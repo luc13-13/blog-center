@@ -36,7 +36,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .description("博客项目,提供文章article、文集set、标签的增删改查接口")
-                .version("0.0.1-SNAPSHOT")
+                .version("1.0-SNAPSHOT")
                 .title("blog-center")
                 .build();
     }
